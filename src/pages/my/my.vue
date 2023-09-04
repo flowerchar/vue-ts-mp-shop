@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMemberStore } from '@/stores'
-
+import '@/utils/http'
 const memberStore = useMemberStore()
 </script>
 
