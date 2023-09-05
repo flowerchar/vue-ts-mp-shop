@@ -1,5 +1,15 @@
 <script setup lang="ts">
+import { getHomeGoodsGuessLikeAPI } from '@/services/home'
+import { getSsrGlobalData } from '@dcloudio/uni-app'
+import { onMounted } from 'vue'
+
 //
+const getHomeGoodsGuessLikeData = async () => {
+  const res = await getHomeGoodsGuessLikeAPI()
+}
+onMounted(() => {
+  getHomeGoodsGuessLikeData()
+})
 </script>
 
 <template>
