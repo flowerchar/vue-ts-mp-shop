@@ -6,15 +6,29 @@ import type { GuessItem } from '@/types/home'
 import type { PageParams } from '@/types/global'
 //
 const pageParams: PageParams = {
-  page: 1,
+  page: 33,
   pageSize: 10,
 }
 const guessList = ref<GuessItem[]>([])
+// const finish = ref<boolean>(false)
+let finish = false
 const getHomeGoodsGuessLikeData = async () => {
+  // if (finish.value === true) {
+  // console.log('finish is', finish)
+  if (finish === true) {
+    // console.log('if代码块里面', finish)
+    return uni.showToast({ icon: 'none', title: '没有更多数据' })
+  }
   const res = await getHomeGoodsGuessLikeAPI(pageParams)
   // guessList.value = res.result.items
   guessList.value.push(...res.result.items)
-  pageParams.page!++
+  if (pageParams.page! < res.result.pages) {
+    pageParams.page!++
+  } else {
+    // finish.value = true
+    finish = true
+    // console.log('else代码块里面', true)
+  }
 }
 onMounted(() => {
   getHomeGoodsGuessLikeData()
@@ -44,7 +58,7 @@ defineExpose({
       </view>
     </navigator>
   </view>
-  <view class="loading-text"> 正在加载... </view>
+  <view class="loading-text"> {{ finish ? '没有更多数据~' : '正在加载。。' }}</view>
 </template>
 
 <style lang="scss">
