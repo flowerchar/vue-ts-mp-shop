@@ -1,4 +1,4 @@
-import type { PageResult } from '@/types/global'
+import type { PageParams, PageResult } from '@/types/global'
 import type { BannerItem, CategoryItem, GuessItem, HotItem } from '@/types/home'
 import { http } from '@/utils/http'
 
@@ -25,10 +25,11 @@ export const getHomeHotAPI = () => {
     url: '/home/hot/mutli',
   })
 }
-
-export const getHomeGoodsGuessLikeAPI = () => {
+// TODO get跟post在小程序里面都是data传递
+export const getHomeGoodsGuessLikeAPI = (data?: PageParams) => {
   return http<PageResult<GuessItem>>({
     method: 'GET',
     url: '/home/goods/guessLike',
+    data,
   })
 }

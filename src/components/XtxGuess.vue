@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import { getHomeGoodsGuessLikeAPI } from '@/services/home'
-import { getSsrGlobalData } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import { onMounted } from 'vue'
 import type { GuessItem } from '@/types/home'
+import type { PageParams } from '@/types/global'
 //
+const pageParams: PageParams = {
+  page: 1,
+  pageSize: 10,
+}
 const guessList = ref<GuessItem[]>([])
 const getHomeGoodsGuessLikeData = async () => {
-  const res = await getHomeGoodsGuessLikeAPI()
-  guessList.value = res.result.items
+  const res = await getHomeGoodsGuessLikeAPI(pageParams)
+  // guessList.value = res.result.items
+  guessList.value.push(...res.result.items)
+  pageParams.page!++
 }
 onMounted(() => {
   getHomeGoodsGuessLikeData()
