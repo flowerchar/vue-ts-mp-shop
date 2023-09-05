@@ -33,11 +33,31 @@ const guessRef = ref<XtxGuessInstance>()
 const onScrolltolower = () => {
   guessRef.value!.getMore()
 }
+const isTriggered = ref(false)
+// let isTriggered = false
+const onRefresherrefresh = async () => {
+  isTriggered.value = true
+  // isTriggered = true
+  // await getHomeBannerData()
+  // await getHomeCategoryData()
+  // await getHomeHotData()
+  await Promise.all([getHomeBannerData(), getHomeCategoryData(), getHomeHotData()])
+  isTriggered.value = false
+  // isTriggered = false
+}
+// 这里一开始组件加载好之后istriggered的值为false，那么之后就不会变了。即使之后更新也不会通知，因为不是响应式
 </script>
 
 <template>
   <CustomNavbar />
-  <scroll-view scroll-y class="scroll-view" @scrolltolower="onScrolltolower">
+  <scroll-view
+    scroll-y
+    class="scroll-view"
+    @scrolltolower="onScrolltolower"
+    :refresher-triggered="isTriggered"
+    refresher-enabled
+    @refresherrefresh="onRefresherrefresh"
+  >
     <XtxSwiper :list="bannerList" />
     <CategoryPanel :list="categoryList" />
     <HotPanel :list="hotList" />
