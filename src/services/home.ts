@@ -10,3 +10,10 @@ export const getHomeBannerAPI = (distributionSite = 1) => {
     },
   })
 }
+
+export const getHomeCategoryAPI = () => {
+  return http({
+    method: 'GET',
+    url: '/home/category/mutli',
+  })
+}
