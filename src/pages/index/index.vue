@@ -8,7 +8,7 @@ import { ref } from 'vue'
 import { getHomeBannerAPI, getHomeCategoryAPI, getHomeHotAPI } from '@/services/home'
 import CategoryPanel from './components/CategoryPanel.vue'
 import HotPanel from './components/HotPanel.vue'
-
+import PageSkeleton from './components/pageSkeleton.vue'
 const bannerList = ref<BannerItem[]>([])
 const categoryList = ref<CategoryItem[]>([])
 const hotList = ref<HotItem[]>([])
@@ -24,10 +24,11 @@ const getHomeHotData = async () => {
   const res = await getHomeHotAPI()
   hotList.value = res.result
 }
-onLoad(() => {
-  getHomeBannerData()
-  getHomeCategoryData()
-  getHomeHotData()
+const isLoading = ref(false)
+onLoad(async () => {
+  isLoading.value = true
+  await Promise.all([getHomeBannerData(), getHomeCategoryData(), getHomeHotData()])
+  isLoading.value = false
 })
 const guessRef = ref<XtxGuessInstance>()
 const onScrolltolower = () => {
@@ -41,7 +42,13 @@ const onRefresherrefresh = async () => {
   // await getHomeBannerData()
   // await getHomeCategoryData()
   // await getHomeHotData()
-  await Promise.all([getHomeBannerData(), getHomeCategoryData(), getHomeHotData()])
+  guessRef.value!.resetData()
+  await Promise.all([
+    getHomeBannerData(),
+    getHomeCategoryData(),
+    getHomeHotData(),
+    guessRef.value!.getMore(),
+  ])
   isTriggered.value = false
   // isTriggered = false
 }
@@ -58,10 +65,13 @@ const onRefresherrefresh = async () => {
     refresher-enabled
     @refresherrefresh="onRefresherrefresh"
   >
-    <XtxSwiper :list="bannerList" />
-    <CategoryPanel :list="categoryList" />
-    <HotPanel :list="hotList" />
-    <XtxGuess ref="guessRef" />
+    <PageSkeleton v-if="isLoading" />
+    <template v-else>
+      <XtxSwiper :list="bannerList" />
+      <CategoryPanel :list="categoryList" />
+      <HotPanel :list="hotList" />
+      <XtxGuess ref="guessRef" />
+    </template>
   </scroll-view>
 </template>
 

@@ -14,9 +14,9 @@ const guessList = ref<GuessItem[]>([])
 let finish = false
 const getHomeGoodsGuessLikeData = async () => {
   // if (finish.value === true) {
-  // console.log('finish is', finish)
+  console.log('finish is', finish)
   if (finish === true) {
-    // console.log('if代码块里面', finish)
+    console.log('if代码块里面', finish)
     return uni.showToast({ icon: 'none', title: '没有更多数据' })
   }
   const res = await getHomeGoodsGuessLikeAPI(pageParams)
@@ -27,13 +27,19 @@ const getHomeGoodsGuessLikeData = async () => {
   } else {
     // finish.value = true
     finish = true
-    // console.log('else代码块里面', true)
+    console.log('else代码块里面', true)
   }
+}
+const resetData = () => {
+  pageParams.page = 1
+  guessList.value = []
+  finish = false
 }
 onMounted(() => {
   getHomeGoodsGuessLikeData()
 })
 defineExpose({
+  resetData,
   getMore: getHomeGoodsGuessLikeData,
 })
 </script>
