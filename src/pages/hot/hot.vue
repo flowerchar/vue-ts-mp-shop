@@ -29,6 +29,17 @@ const getHotRecommendData = async () => {
 onLoad(() => {
   getHotRecommendData()
 })
+const onScrolltolower = async () => {
+  const currsubTypes = subTypes.value[activeIndex.value]
+  currsubTypes.goodsItems.page++
+  const res = await getHotRecommendAPI(currUrlMap!.url, {
+    subType: currsubTypes.id,
+    page: currsubTypes.goodsItems.page,
+    pageSize: currsubTypes.goodsItems.pageSize,
+  })
+  const newsubTypes = res.result.subTypes[activeIndex.value]
+  currsubTypes.goodsItems.items.push(...newsubTypes.goodsItems.items)
+}
 </script>
 
 <template>
@@ -50,6 +61,7 @@ onLoad(() => {
     </view>
     <!-- 推荐列表 -->
     <scroll-view
+      @scrolltolower="onScrolltolower"
       scroll-y
       class="scroll-view"
       v-for="(item, index) in subTypes"
