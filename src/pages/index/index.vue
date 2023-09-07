@@ -3,12 +3,13 @@
 import type { BannerItem, CategoryItem, HotItem } from '@/types/home'
 import type { XtxGuessInstance } from '@/types/components'
 import CustomNavbar from './components/CustomNavbar.vue'
-import { onLoad } from '@dcloudio/uni-app'
+// import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import { getHomeBannerAPI, getHomeCategoryAPI, getHomeHotAPI } from '@/services/home'
 import CategoryPanel from './components/CategoryPanel.vue'
 import HotPanel from './components/HotPanel.vue'
 import PageSkeleton from './components/PageSkeleton.vue'
+import { onLoad } from '@dcloudio/uni-app'
 const bannerList = ref<BannerItem[]>([])
 const categoryList = ref<CategoryItem[]>([])
 const hotList = ref<HotItem[]>([])
