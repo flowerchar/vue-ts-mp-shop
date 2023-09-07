@@ -8,7 +8,7 @@ import { ref } from 'vue'
 import { getHomeBannerAPI, getHomeCategoryAPI, getHomeHotAPI } from '@/services/home'
 import CategoryPanel from './components/CategoryPanel.vue'
 import HotPanel from './components/HotPanel.vue'
-import PageSkeleton from './components/pageSkeleton.vue'
+import PageSkeleton from './components/PageSkeleton.vue'
 const bannerList = ref<BannerItem[]>([])
 const categoryList = ref<CategoryItem[]>([])
 const hotList = ref<HotItem[]>([])
