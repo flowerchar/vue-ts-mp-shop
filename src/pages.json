@@ -91,20 +91,7 @@
         "selectedIconPath": "static/tabs/user_selected.png"
       }
     ]
-  },
-  "subPackages": [
-    {
-      "root": "pages",
-      "pages": [
-        {
-          "path": "hot",
-          "style": {
-            "navigationBarTitleText": "热门推荐"
-          }
-        }
-      ]
-    }
-  ]
+  }
 }
 
 // {
