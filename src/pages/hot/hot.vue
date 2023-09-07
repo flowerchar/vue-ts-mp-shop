@@ -11,8 +11,9 @@ const urlMap = [
   { type: '3', title: '一站买全', url: '/hot/oneStop' },
   { type: '4', title: '新鲜好物', url: '/hot/new' },
 ]
+// const is
 const bannerPicture = ref('')
-const subTypes = ref<SubTypeItem[]>([])
+const subTypes = ref<(SubTypeItem & { finish?: boolean })[]>([])
 const activeIndex = ref(0)
 const query = defineProps<{
   type: string
@@ -21,7 +22,10 @@ const currUrlMap = urlMap.find((v) => v.type === query.type)
 uni.setNavigationBarTitle({ title: currUrlMap!.title })
 
 const getHotRecommendData = async () => {
-  const res = await getHotRecommendAPI(currUrlMap!.url)
+  const res = await getHotRecommendAPI(currUrlMap!.url, {
+    page: import.meta.env.DEV ? 30 : 1,
+    pageSize: 10,
+  })
   // console.log(res)
   bannerPicture.value = res.result.bannerPicture
   subTypes.value = res.result.subTypes
@@ -31,7 +35,12 @@ onLoad(() => {
 })
 const onScrolltolower = async () => {
   const currsubTypes = subTypes.value[activeIndex.value]
-  currsubTypes.goodsItems.page++
+  if (currsubTypes.goodsItems.page < currsubTypes.goodsItems.pages) {
+    currsubTypes.goodsItems.page++
+  } else {
+    currsubTypes.finish = true
+    return uni.showToast({ icon: 'none', title: '没有更多数据咯' })
+  }
   const res = await getHotRecommendAPI(currUrlMap!.url, {
     subType: currsubTypes.id,
     page: currsubTypes.goodsItems.page,
@@ -84,7 +93,7 @@ const onScrolltolower = async () => {
           </view>
         </navigator>
       </view>
-      <view class="loading-text">正在加载...</view>
+      <view class="loading-text">{{ item.finish ? '没有更多数据咯' : '正在加载' }}</view>
     </scroll-view>
   </view>
 </template>
