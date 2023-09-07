@@ -41,15 +41,9 @@
       }
     },
     {
-      "path": "pages/index/components/CustomNavbar",
+      "path": "pages/hot/hot",
       "style": {
-        "navigationBarTitleText": "CustomNavbar"
-      }
-    },
-    {
-      "path": "components/XtxSwiper",
-      "style": {
-        "navigationBarTitleText": "XtxSwiper"
+        "navigationBarTitleText": "热门推荐"
       }
     }
   ],
@@ -91,5 +85,31 @@
         "selectedIconPath": "static/tabs/user_selected.png"
       }
     ]
-  }
+  },
+  "subPackages": [
+    {
+      "root": "pages",
+      "pages": [
+        {
+          "path": "hot",
+          "style": {
+            "navigationBarTitleText": "热门推荐"
+          }
+        }
+      ]
+    }
+  ]
 }
+
+// {
+//   "path": "pages/index/components/CustomNavbar",
+//   "style": {
+//     "navigationBarTitleText": "CustomNavbar"
+//   }
+// },
+// {
+//   "path": "components/XtxSwiper",
+//   "style": {
+//     "navigationBarTitleText": "XtxSwiper"
+//   }
+// },
