@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //
-import { postLoginWxMinAPI } from '@/services/login'
+import { postLoginWxMinAPI, postLoginWxMinSimpleAPI } from '@/services/login'
 import { onLoad } from '@dcloudio/uni-app'
 
 let code = ''
@@ -18,6 +18,11 @@ const onGetphonenumber: UniHelper.ButtonOnGetphonenumber = async (ev) => {
     iv,
   })
   console.log(res)
+}
+
+const onGetphonenumberSimple = async () => {
+  const res = await postLoginWxMinSimpleAPI('13952062557')
+  uni.showToast({ icon: 'none', title: '登陆success' })
 }
 </script>
 
@@ -45,7 +50,7 @@ const onGetphonenumber: UniHelper.ButtonOnGetphonenumber = async (ev) => {
         </view>
         <view class="options">
           <!-- 通用模拟登录 -->
-          <button>
+          <button @tap="onGetphonenumberSimple">
             <text class="icon icon-phone">模拟快捷登录</text>
           </button>
         </view>
