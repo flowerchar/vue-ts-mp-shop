@@ -1,5 +1,5 @@
 import { http } from '@/utils/http'
-import type { LoginResult } from '@/types/menber'
+import type { LoginResult } from '@/types/member'
 type LoginParams = {
   code: string
   encryptedData: string

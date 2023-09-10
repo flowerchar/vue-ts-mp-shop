@@ -195,3 +195,4 @@ page {
   text-align: center;
 }
 </style>
+@/types/member
