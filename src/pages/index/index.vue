@@ -10,6 +10,7 @@ import CategoryPanel from './components/CategoryPanel.vue'
 import HotPanel from './components/HotPanel.vue'
 import PageSkeleton from './components/PageSkeleton.vue'
 import { onLoad } from '@dcloudio/uni-app'
+import { useGuessList } from '@/composables'
 const bannerList = ref<BannerItem[]>([])
 const categoryList = ref<CategoryItem[]>([])
 const hotList = ref<HotItem[]>([])
@@ -31,10 +32,11 @@ onLoad(async () => {
   await Promise.all([getHomeBannerData(), getHomeCategoryData(), getHomeHotData()])
   isLoading.value = false
 })
-const guessRef = ref<XtxGuessInstance>()
-const onScrolltolower = () => {
-  guessRef.value!.getMore()
-}
+// const guessRef = ref<XtxGuessInstance>()
+// const onScrolltolower = () => {
+//   guessRef.value!.getMore()
+// }
+const { guessRef, onScrolltolower } = useGuessList()
 const isTriggered = ref(false)
 // let isTriggered = false
 const onRefresherrefresh = async () => {
