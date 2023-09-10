@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onLoad } from '@dcloudio/uni-app'
-import { getMemberProfileAPI } from '@/services/profile'
+import { getMemberProfileAPI, putMemberProfileAPI } from '@/services/profile'
 import { ref } from 'vue'
 import type { ProfileDetail } from '@/types/member'
 
 // 获取屏幕边界到安全区域距离
-const profile = ref<ProfileDetail>()
+const profile = ref({} as ProfileDetail)
 const { safeAreaInsets } = uni.getSystemInfoSync()
 const getMemberProfileData = async () => {
   const res = await getMemberProfileAPI()
@@ -37,6 +37,12 @@ const onAvatarChange = () => {
     },
   })
 }
+const onSubmit = async () => {
+  const res = await putMemberProfileAPI({
+    nickname: profile.value?.nickname,
+  })
+  uni.showToast({ icon: 'success', title: '保存成功' })
+}
 </script>
 
 <template>
@@ -63,7 +69,7 @@ const onAvatarChange = () => {
         </view>
         <view class="form-item">
           <text class="label">昵称</text>
-          <input class="input" type="text" placeholder="请填写昵称" :value="profile?.nickname" />
+          <input class="input" type="text" placeholder="请填写昵称" v-model="profile!.nickname" />
         </view>
         <view class="form-item">
           <text class="label">性别</text>
@@ -93,7 +99,7 @@ const onAvatarChange = () => {
         </view>
         <view class="form-item">
           <text class="label">城市</text>
-          <picker class="picker" mode="region" :value="profile?.fullLocation.split(' ')">
+          <picker class="picker" mode="region" :value="profile?.fullLocation?.split(' ')">
             <view v-if="profile?.fullLocation">{{ profile?.fullLocation }}</view>
             <view class="placeholder" v-else>请选择城市</view>
           </picker>
@@ -104,7 +110,7 @@ const onAvatarChange = () => {
         </view>
       </view>
       <!-- 提交按钮 -->
-      <button class="form-button">保 存</button>
+      <button class="form-button" @tap="onSubmit">保 存</button>
     </view>
   </view>
 </template>
