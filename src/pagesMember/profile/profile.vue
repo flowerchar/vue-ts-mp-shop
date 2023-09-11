@@ -43,10 +43,15 @@ const onAvatarChange = () => {
 const onGenderChange: UniHelper.RadioGroupOnChange = (ev) => {
   profile.value.gender = ev.detail.value as Gender
 }
+const onBirthdayChange: UniHelper.DatePickerOnChange = (ev) => {
+  profile.value.birthday = ev.detail.value
+}
 const onSubmit = async () => {
+  const { nickname, gender, birthday } = profile.value
   const res = await putMemberProfileAPI({
-    nickname: profile.value?.nickname,
-    gender: profile.value.gender,
+    nickname,
+    gender,
+    birthday,
   })
   memberStore.profile!.nickname = res.result.nickname
 
@@ -97,6 +102,7 @@ const onSubmit = async () => {
         <view class="form-item">
           <text class="label">生日</text>
           <picker
+            @change="onBirthdayChange"
             class="picker"
             mode="date"
             start="1900-01-01"
