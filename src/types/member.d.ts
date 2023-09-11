@@ -37,5 +37,5 @@ export type ProfileParams = Pick<
 > & {
   provinceCode?: string
   cityCode?: string
-  countryCode?: string
+  countyCode?: string
 }
