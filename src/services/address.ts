@@ -15,3 +15,10 @@ export const getMemberAddressAPI = () => {
     url: '/member/address',
   })
 }
+
+export const getMemberAddressByIdAPI = (id: string) => {
+  return http<AddressItem>({
+    method: 'GET',
+    url: `/member/address/${id}`,
+  })
+}
