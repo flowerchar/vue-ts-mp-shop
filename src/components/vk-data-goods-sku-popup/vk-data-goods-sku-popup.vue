@@ -397,7 +397,7 @@ export default {
   },
   data() {
     return {
-      safeBottom: 0,  // 留出底部安全距离
+      safeBottom: 0, // 留出底部安全距离
       complete: false, // 组件是否加载完成
       goodsInfo: {}, // 商品信息
       isShow: false, // true 显示 false 隐藏
@@ -502,7 +502,7 @@ export default {
       that.open()
     }
     // 获取屏幕边界到安全区域距离
-    const {safeAreaInsets} = uni.getSystemInfoSync()
+    const { safeAreaInsets } = uni.getSystemInfoSync()
     // 底部安全距离
     that.safeBottom = safeAreaInsets.bottom
   },
