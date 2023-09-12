@@ -77,10 +77,8 @@ const onSubmit = async () => {
     </form>
   </view>
   <!-- 提交按钮 -->
-  <button class="button" @tap="onSubmit">保存并使用</button>
-  {{ form }}
+  <button @tap="onSubmit" class="button">保存并使用</button>
 </template>
-
 <style lang="scss">
 page {
   background-color: #f4f4f4;
