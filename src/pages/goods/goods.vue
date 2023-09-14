@@ -10,6 +10,7 @@ import ServicePanel from './components/ServicePanel.vue'
 import type {
   SkuPopupLocaldata,
   SkuPopupInstance,
+  SkuPopupEvent,
 } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
