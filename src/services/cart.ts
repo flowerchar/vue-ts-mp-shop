@@ -8,10 +8,19 @@ export const postMemberCartAPI = (data: { skuId: string; count: number }) => {
     data,
   })
 }
+// 在Java中有一个泛型类，里面有个字段private T data，其中T是泛型。我在实例化该泛型类的时候不传入泛型的类型，那么实例化后的对象data属性是什么类型
 
-export const GetMemberCartAPI = () => {
+export const getMemberCartAPI = () => {
   return http<CartItem[]>({
     method: 'GET',
     url: '/member/cart',
+  })
+}
+
+export const deleteMemberCartAPI = (data: { ids: string[] }) => {
+  return http({
+    method: 'DELETE',
+    url: '/member/cart',
+    data,
   })
 }

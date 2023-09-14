@@ -1,19 +1,30 @@
 <script setup lang="ts">
-import { GetMemberCartAPI } from '@/services/cart'
+import { getMemberCartAPI, deleteMemberCartAPI } from '@/services/cart'
 import { useMemberStore } from '@/stores'
 import { onShow } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import type { CartItem } from '@/types/cart'
+
 //
 const memberStore = useMemberStore()
 const cartList = ref<CartItem[]>([])
 const GetMemberCartData = async () => {
-  const res = await GetMemberCartAPI()
+  const res = await getMemberCartAPI()
   cartList.value = res.result
 }
 onShow(() => {
   GetMemberCartData()
 })
+const onDeleteCart = (skuId: string) => {
+  uni.showModal({
+    title: '警告',
+    content: '是否删除',
+    success: async (res) => {
+      await deleteMemberCartAPI({ ids: [skuId] })
+      GetMemberCartData()
+    },
+  })
+}
 </script>
 
 <template>
@@ -57,7 +68,7 @@ onShow(() => {
             <!-- 右侧删除按钮 -->
             <template #right>
               <view class="cart-swipe-right">
-                <button class="button delete-button">删除</button>
+                <button @tap="onDeleteCart(item.skuId)" class="button delete-button">删除</button>
               </view>
             </template>
           </uni-swipe-action-item>
