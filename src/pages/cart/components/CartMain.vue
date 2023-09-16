@@ -76,9 +76,7 @@ const gotoPayment = () => {
     })
   }
 
-  uni.showToast({
-    title: '未完待续',
-  })
+  uni.navigateTo({ url: '/pagesOrder/create/create' })
 }
 </script>
 
