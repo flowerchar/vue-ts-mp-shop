@@ -1,4 +1,3 @@
-// src/pages/goods/goods.vue
 <script setup lang="ts">
 import { getGoodsByIdAPI } from '@/services/goods'
 import { postMemberCartAPI } from '@/services/cart'
