@@ -1,43 +1,47 @@
 <script setup lang="ts">
 import { getHomeGoodsGuessLikeAPI } from '@/services/home'
-import { ref } from 'vue'
-import { onMounted } from 'vue'
-import type { GuessItem } from '@/types/home'
 import type { PageParams } from '@/types/global'
-//
-const pageParams: PageParams = {
-  page: 33,
+import type { GuessItem } from '@/types/home'
+import { onMounted, ref } from 'vue'
+
+// 分页参数
+const pageParams: Required<PageParams> = {
+  page: 1,
   pageSize: 10,
 }
+// 猜你喜欢的列表
 const guessList = ref<GuessItem[]>([])
-// const finish = ref<boolean>(false)
-let finish = false
+// 已结束标记
+const finish = ref(false)
+// 获取猜你喜欢数据
 const getHomeGoodsGuessLikeData = async () => {
-  // if (finish.value === true) {
-  console.log('finish is', finish)
-  if (finish === true) {
-    console.log('if代码块里面', finish)
-    return uni.showToast({ icon: 'none', title: '没有更多数据' })
+  // 退出分页判断
+  if (finish.value === true) {
+    return uni.showToast({ icon: 'none', title: '没有更多数据~' })
   }
   const res = await getHomeGoodsGuessLikeAPI(pageParams)
   // guessList.value = res.result.items
+  // 数组追加
   guessList.value.push(...res.result.items)
-  if (pageParams.page! < res.result.pages) {
-    pageParams.page!++
+  // 分页条件
+  if (pageParams.page < res.result.pages) {
+    // 页码累加
+    pageParams.page++
   } else {
-    // finish.value = true
-    finish = true
-    console.log('else代码块里面', true)
+    finish.value = true
   }
 }
+// 重置数据
 const resetData = () => {
   pageParams.page = 1
   guessList.value = []
-  finish = false
+  finish.value = false
 }
+// 组件挂载完毕
 onMounted(() => {
   getHomeGoodsGuessLikeData()
 })
+// 暴露方法
 defineExpose({
   resetData,
   getMore: getHomeGoodsGuessLikeData,
@@ -64,7 +68,9 @@ defineExpose({
       </view>
     </navigator>
   </view>
-  <view class="loading-text"> {{ finish ? '没有更多数据~' : '正在加载。。' }}</view>
+  <view class="loading-text">
+    {{ finish ? '没有更多数据~' : '正在加载...' }}
+  </view>
 </template>
 
 <style lang="scss">
