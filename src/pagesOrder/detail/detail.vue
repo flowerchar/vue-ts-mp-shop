@@ -5,6 +5,7 @@ import { getMemberOrderByIdAPI } from '@/services/order'
 import { ref } from 'vue'
 import type { OrderResult } from '@/types/order'
 import { OrderState, orderStateList } from '@/services/constants'
+import { getPayWxPayMinAPI, getPayMockAPI } from '@/services/pay'
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
 // 猜你喜欢
@@ -78,6 +79,17 @@ onLoad(() => {
 const onTimeup = () => {
   order.value!.orderState = OrderState.YiQuXiao
 }
+
+const onOrderPay = async () => {
+  if (import.meta.env.DEV) {
+    await getPayMockAPI({ orderId: query.id })
+  } else {
+    const res = await getPayWxPayMinAPI({ orderId: query.id })
+    wx.requestPayment(res.result)
+  }
+
+  uni.redirectTo({ url: `/pagesOrder/payment/payment?id=${query.id}` })
+}
 </script>
 
 <template>
@@ -109,11 +121,11 @@ const onTimeup = () => {
               splitor-color="#fff"
               :show-day="false"
               :show-colon="false"
-              :second="10"
+              :second="order.countdown"
               @timeup="onTimeup"
             />
           </view>
-          <view class="button">去支付</view>
+          <view class="button" @tap="onOrderPay">去支付</view>
         </template>
         <!-- 其他订单状态:展示再次购买按钮 -->
         <template v-else>
@@ -216,7 +228,7 @@ const onTimeup = () => {
       <view class="toolbar" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }">
         <!-- 待付款状态:展示支付按钮 -->
         <template v-if="true">
-          <view class="button primary"> 去支付 </view>
+          <view class="button primary" @tap="onOrderPay"> 去支付 </view>
           <view class="button" @tap="popup?.open?.()"> 取消订单 </view>
         </template>
         <!-- 其他订单状态:按需展示按钮 -->
