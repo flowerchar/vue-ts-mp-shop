@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { getMemberOrderPreAPI } from '@/services/order'
+import { getMemberOrderPreAPI, getMemberOrderPreNowAPI } from '@/services/order'
 import { onLoad } from '@dcloudio/uni-app'
 import type { OrderPreResult } from '@/types/order'
 import { useAddressStore } from '@/stores'
@@ -24,9 +24,21 @@ const onChangeDelivery: UniHelper.SelectorPickerOnChange = (ev) => {
 }
 const orderPre = ref<OrderPreResult>()
 const getMemberOrderPreData = async () => {
-  const res = await getMemberOrderPreAPI()
-  orderPre.value = res.result
+  if (query.count && query.skuId) {
+    const res = await getMemberOrderPreNowAPI({
+      skuId: query.skuId,
+      count: query.count,
+    })
+    orderPre.value = res.result
+  } else {
+    const res = await getMemberOrderPreAPI()
+    orderPre.value = res.result
+  }
 }
+const query = defineProps<{
+  skuId?: string
+  count?: string
+}>()
 onLoad(() => {
   getMemberOrderPreData()
 })
@@ -78,7 +90,7 @@ const selectedAddress = computed(() => {
             <view class="pay-price symbol">{{ item.payPrice }}</view>
             <view class="price symbol">{{ item.price }}</view>
           </view>
-          <view class="count">x5</view>
+          <view class="count">x{{ item.count }}</view>
         </view>
       </navigator>
     </view>
