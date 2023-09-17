@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 
 // 获取屏幕边界到安全区域距离
@@ -11,7 +12,14 @@ const orderTabs = ref([
   { orderState: 3, title: '待收货' },
   { orderState: 4, title: '待评价' },
 ])
-const activeIndex = ref(0)
+// TODO 所谓的强类型只是跟py一样，表示最好是这样，而不会像java一样报错，而且query接收一定是字符串类型
+const activeIndex = ref(orderTabs.value.findIndex((v) => v.orderState === Number(query.type)))
+const query = defineProps<{
+  type: String
+}>()
+onLoad(() => {
+  console.log(typeof query.type)
+})
 </script>
 
 <template>
